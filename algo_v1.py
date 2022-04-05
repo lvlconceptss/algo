@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv (r'sample_data3.csv',sep=";")
+df = pd.read_csv (r'sample_data4.csv',sep=";")
 print (df)
 
 #df = df.sort_values(['Gewicht'],
@@ -10,7 +10,7 @@ print (df)
 #              ascending = [True, True])
 
 
-df.sort_values(by=['Status','Gewicht'], inplace=True,
-               ascending = [False, True])
+df.sort_values(by=['Einlieferung','Gewicht'], inplace=True,
+               ascending = [True, True])
 
 print(df)

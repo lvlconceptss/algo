@@ -1,14 +1,8 @@
 import pandas as pd
 
+#read df from csv
 df = pd.read_csv (r'sample_data4.csv',sep=";")
 print (df)
-
-# df = df.sort_values(['Einlieferung'],
-#               ascending = [True])
-
-# df = df.sort_values(['Einlieferung', 'Gewicht'],
-#               ascending = [True, True])
-
 
 #split eillieferung to differrent df
 dfeil = df[df['Status'] == 1]
@@ -31,3 +25,6 @@ frames = [dfeil, df]
 #merge dfs sorting x = dfeil, y = df
 dfmerge = pd.concat(frames, keys=["x","y"])
 print(dfmerge)
+
+#export dfmerge to xlsx
+dfmerge.to_excel('output.xlsx', sheet_name='Sheet1')

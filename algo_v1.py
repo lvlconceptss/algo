@@ -9,13 +9,13 @@ dfeil = df[df['Status'] == 1]
 #remove rows with status 1 from df
 df = df[df['Status'] != 1]
 #sort dfeil by Einlieferung
-dfeil = dfeil.sort_values(['Einlieferung'])
+dfeil = dfeil.sort_values(['Gewicht'])
 print("Eillieferung:")
 print (dfeil)
 
 #sort df by Einlieferung and Gewicht
-df = df.sort_values(by=['Einlieferung', 'Gewicht'], kind='stable', 
-               ascending = [True, True])
+df = df.sort_values(by=['Gewicht'], kind='stable', 
+               ascending = [True])
 print("Normal:")
 print(df)
 

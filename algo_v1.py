@@ -1,26 +1,26 @@
 import pandas as pd
 
 #read df from csv
-df = pd.read_csv (r'sample_data4.csv',sep=";")
-print (df)
+dfnorm = pd.read_csv (r'sample_data4.csv',sep=";")
+print (dfnorm)
 
 #split eillieferung to differrent df
-dfeil = df[df['Status'] == 1]
+dfeil = dfnorm[dfnorm['Status'] == 1]
 #remove rows with status 1 from df
-df = df[df['Status'] != 1]
+dfnorm = dfnorm[dfnorm['Status'] != 1]
 #sort dfeil by Einlieferung
 dfeil = dfeil.sort_values(['Gewicht'])
 print("Eillieferung:")
 print (dfeil)
 
 #sort df by Einlieferung and Gewicht
-df = df.sort_values(by=['Gewicht'], kind='stable', 
+dfnorm = dfnorm.sort_values(by=['Gewicht'], kind='stable', 
                ascending = [True])
 print("Normal:")
-print(df)
+print(dfnorm)
 
 #define merge list
-frames = [dfeil, df]
+frames = [dfeil, dfnorm]
 
 #merge dfs sorting x = dfeil, y = df
 dfmerge = pd.concat(frames, keys=["x","y"])

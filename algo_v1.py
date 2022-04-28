@@ -8,14 +8,14 @@ print (dfnorm)
 dfeil = dfnorm[dfnorm['Status'] == 1]
 #remove rows with status 1 from df
 dfnorm = dfnorm[dfnorm['Status'] != 1]
-#sort dfeil by Einlieferung
-dfeil = dfeil.sort_values(['Gewicht'])
-print("Eillieferung:")
+
+#sort dfeil by Gewicht 
+dfeil = dfeil.sort_values(['Gewicht'],ascending = [True])
+print("Eil: ")
 print (dfeil)
 
-#sort df by Einlieferung and Gewicht
-dfnorm = dfnorm.sort_values(by=['Gewicht'], kind='stable', 
-               ascending = [True])
+#sort dfnormal by Gewicht
+dfnorm = dfnorm.sort_values(by=['Gewicht'], ascending = [True])
 print("Normal:")
 print(dfnorm)
 
@@ -23,8 +23,8 @@ print(dfnorm)
 frames = [dfeil, dfnorm]
 
 #merge dfs sorting x = dfeil, y = df
-dfmerge = pd.concat(frames, keys=["x","y"])
+dfmerge = pd.concat(frames, keys=["Eil","Normal"])
 print(dfmerge)
 
 #export dfmerge to xlsx
-dfmerge.to_excel('output.xlsx', sheet_name='Sheet1')
+#dfmerge.to_excel('output.xlsx', sheet_name='Sheet1')

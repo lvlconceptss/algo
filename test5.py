@@ -1,65 +1,14 @@
-
 import tkinter as tk
 from tkinter import ttk
-from tkinter.messagebox import NO, showinfo
-import tkinter as tk
-from tkinter import ttk
-from tkinter.messagebox import showinfo
-import tkinter as tk
-from turtle import left
-import pandas as pd
-
-#read df from csv
-dfnorm = pd.read_csv (r'sample_data4.csv',sep=";")
-print (dfnorm)
-
-#split eillieferung to differrent df
-dfeil = dfnorm[dfnorm['Status'] == 1]
-#remove rows with status 1 from df
-dfnorm = dfnorm[dfnorm['Status'] != 1]
-
-#sort dfeil by Gewicht 
-dfeil = dfeil.sort_values(['Gewicht'],ascending = [True])
-print("Eil: ")
-print (dfeil)
-
-#sort dfnormal by Gewicht
-dfnorm = dfnorm.sort_values(by=['Gewicht'], ascending = [True])
-print("Normal:")
-print(dfnorm)
-
-#define merge list
-frames = [dfeil, dfnorm]
-
-#merge dfs sorting x = dfeil, y = df
-dfmerge = pd.concat(frames, keys=["Eil","Normal"])
-print(dfmerge)
-
-#export dfmerge to xlsx
-#dfmerge.to_excel('output.xlsx', sheet_name='Sheet1')
-
-listmerge = dfmerge.values.tolist()
-
-
-
-#GUI
-
-#Main Window 
 
 root = tk.Tk()
-root.title("Paketverwaltung")
-root.geometry("1024x700")
-root.resizable(0,0)
 
-#TreeView
 
 class CbTreeview(ttk.Treeview):
-
     def __init__(self, master=None, **kw):
         kw.setdefault('style', 'cb.Treeview')
         kw.setdefault('show', 'headings')  # hide column #0
         ttk.Treeview.__init__(self, master, **kw)
-
         # create checheckbox images
         self._im_checked = tk.PhotoImage('checked',
                                          data=b'GIF89a\x0e\x00\x0e\x00\xf0\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x0e\x00\x0e\x00\x00\x02#\x04\x82\xa9v\xc8\xef\xdc\x83k\x9ap\xe5\xc4\x99S\x96l^\x83qZ\xd7\x8d$\xa8\xae\x99\x15Zl#\xd3\xa9"\x15\x00;',
@@ -69,11 +18,10 @@ class CbTreeview(ttk.Treeview):
                                            master=self)
         style = ttk.Style(self)
         style.configure("cb.Treeview.Heading", font=(None, 13))
-
         # put image on the right
         style.layout('cb.Treeview.Row',
                      [('Treeitem.row', {'sticky': 'nswe'}),
-                      ('Treeitem.image', {'side': 'right', 'sticky': 's'})])
+                      ('Treeitem.image', {'side': 'right', 'sticky': 'e'})])
 
         # use tags to set the checkbox state
         self.tag_configure('checked', image='checked')
@@ -92,53 +40,43 @@ class CbTreeview(ttk.Treeview):
         item = ttk.Treeview.insert(self, parent, index, iid, **kw)
         self.tag_add(item, (item, 'unchecked'))
         self.tag_bind(item, '<ButtonRelease-1>',
-        lambda event: self._on_click(event, item))
+                      lambda event: self._on_click(event, item))
 
     def _on_click(self, event, item):
         """Handle click on items."""
         if self.identify_row(event.y) == item:
-            if self.identify_column(event.x) == '#5': # click in 'Served' column
+            if self.identify_column(event.x) == '#4': # click in 'Served' column
+                
                 # toggle checkbox image
                 if self.tag_has('checked', item):
                     self.tag_remove(item, 'checked')
                     self.tag_add(item, ('unchecked',))
-                    print(listmerge)
                 else:
                     self.tag_remove(item, 'unchecked')
                     self.tag_add(item, ('checked',))
 
 
 
-tree = CbTreeview(root, columns=("Einlieferung", "Gewicht", "Status", "ID", "Versand"),
+tree = CbTreeview(root, columns=("Table No.", "Order", "Time", "Served","Test"),
                   height=400, selectmode="extended")
 
-#Formatierung des Tree's
-##Zeilen
-tree.heading('Einlieferung', text='Einlieferung',anchor = 'nw')
-tree.heading('Gewicht', text='Gewicht',anchor = 'nw')
-tree.heading('Status', text='Status',anchor = 'nw')
-tree.heading('ID', text='ID',anchor = 'nw')
-tree.heading('Versand', text = 'Versand',anchor = 'nw')
-##Spalten
-tree.column('Einlieferung',stretch = NO, anchor = 's' )
-tree.column('Gewicht',stretch = NO, anchor = 's' )
-tree.column('Status',stretch = NO, anchor = 's' )
-tree.column('ID',stretch = NO, anchor = 's' )
+tree.heading('Table No.', text="Table No.", anchor='w')
+tree.heading('Order', text="Order", anchor='w')
+tree.heading('Time', text="Time", anchor='w')
+tree.heading('Test')
+tree.heading('Served', text="Served", anchor='w')
+tree.column('#1', stretch='no', minwidth=0, width=100)
+tree.column('#2', stretch='no', minwidth=0, width=600)
+tree.column('#3', stretch='no', minwidth=0, width=100)
+tree.column('#4', stretch='no', minwidth=0, width=70)
 
 tree.pack(fill='both')
 
-for contact in listmerge:
-    tree.insert('', tk.END, values=contact)
-    
+for i in range(2):
+    tree.insert('', 'end', values=(i, i, i))
 
-#tree.grid(row=0, column=1, sticky='nsew')
-tree.pack(side = 'left')
-
-#Scrollbar 
-
-#vsb = ttk.Scrollbar(root, orient="vertical")
-#vsb.pack(side='right',fill='y')
-
-#tree.configure(xscrollcommand = vsb.set)
+scrollbar = ttk.Scrollbar(root, orient=tk.VERTICAL, command=tree.yview)
+tree.configure(yscroll=scrollbar.set)
+scrollbar.grid(row=0, column=2, sticky='ns')
 
 root.mainloop()

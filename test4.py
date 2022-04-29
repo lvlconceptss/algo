@@ -1,10 +1,13 @@
 
-import tkinter as tk
-from tkinter import ttk
-from tkinter.messagebox import NO, showinfo
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
+import tkinter as tk
+from tkinter import ttk
+from tkinter.messagebox import showinfo
+
+
 import tkinter as tk
 from turtle import left
 import pandas as pd
@@ -39,22 +42,10 @@ print(dfmerge)
 #dfmerge.to_excel('output.xlsx', sheet_name='Sheet1')
 
 listmerge = dfmerge.values.tolist()
-
-
-
-#GUI
-
-#Main Window 
-
 root = tk.Tk()
-root.title("Paketverwaltung")
-root.geometry("1024x700")
-root.resizable(0,0)
 
-#TreeView
 
 class CbTreeview(ttk.Treeview):
-
     def __init__(self, master=None, **kw):
         kw.setdefault('style', 'cb.Treeview')
         kw.setdefault('show', 'headings')  # hide column #0
@@ -73,7 +64,7 @@ class CbTreeview(ttk.Treeview):
         # put image on the right
         style.layout('cb.Treeview.Row',
                      [('Treeitem.row', {'sticky': 'nswe'}),
-                      ('Treeitem.image', {'side': 'right', 'sticky': 's'})])
+                      ('Treeitem.image', {'side': 'right', 'sticky': 'e'})])
 
         # use tags to set the checkbox state
         self.tag_configure('checked', image='checked')
@@ -102,7 +93,6 @@ class CbTreeview(ttk.Treeview):
                 if self.tag_has('checked', item):
                     self.tag_remove(item, 'checked')
                     self.tag_add(item, ('unchecked',))
-                    print(listmerge)
                 else:
                     self.tag_remove(item, 'unchecked')
                     self.tag_add(item, ('checked',))
@@ -112,18 +102,12 @@ class CbTreeview(ttk.Treeview):
 tree = CbTreeview(root, columns=("Einlieferung", "Gewicht", "Status", "ID", "Versand"),
                   height=400, selectmode="extended")
 
-#Formatierung des Tree's
-##Zeilen
 tree.heading('Einlieferung', text='Einlieferung',anchor = 'nw')
 tree.heading('Gewicht', text='Gewicht',anchor = 'nw')
 tree.heading('Status', text='Status',anchor = 'nw')
 tree.heading('ID', text='ID',anchor = 'nw')
 tree.heading('Versand', text = 'Versand',anchor = 'nw')
-##Spalten
-tree.column('Einlieferung',stretch = NO, anchor = 's' )
-tree.column('Gewicht',stretch = NO, anchor = 's' )
-tree.column('Status',stretch = NO, anchor = 's' )
-tree.column('ID',stretch = NO, anchor = 's' )
+
 
 tree.pack(fill='both')
 
@@ -131,14 +115,5 @@ for contact in listmerge:
     tree.insert('', tk.END, values=contact)
     
 
-#tree.grid(row=0, column=1, sticky='nsew')
-tree.pack(side = 'left')
-
-#Scrollbar 
-
-#vsb = ttk.Scrollbar(root, orient="vertical")
-#vsb.pack(side='right',fill='y')
-
-#tree.configure(xscrollcommand = vsb.set)
-
+tree.grid(row=0, column=1, sticky='nsew')
 root.mainloop()

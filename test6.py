@@ -1,7 +1,7 @@
 
 import tkinter as tk
 from tkinter import ttk
-from tkinter.messagebox import NO, showinfo
+from tkinter.messagebox import showinfo
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
@@ -68,12 +68,14 @@ class CbTreeview(ttk.Treeview):
                                            data=b'GIF89a\x0e\x00\x0e\x00\xf0\x00\x00\x00\x00\x00\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x0e\x00\x0e\x00\x00\x02\x1e\x04\x82\xa9v\xc1\xdf"|i\xc2j\x19\xce\x06q\xed|\xd2\xe7\x89%yZ^J\x85\x8d\xb2\x00\x05\x00;',
                                            master=self)
         style = ttk.Style(self)
-        style.configure("cb.Treeview.Heading", font=(None, 13))
+        style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 11)) # Modify the font of the body
+        style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
+        style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders))
 
         # put image on the right
         style.layout('cb.Treeview.Row',
                      [('Treeitem.row', {'sticky': 'nswe'}),
-                      ('Treeitem.image', {'side': 'right', 'sticky': 's'})])
+                      ('Treeitem.image', {'side': 'right', 'sticky': 'e'})])
 
         # use tags to set the checkbox state
         self.tag_configure('checked', image='checked')
@@ -102,7 +104,6 @@ class CbTreeview(ttk.Treeview):
                 if self.tag_has('checked', item):
                     self.tag_remove(item, 'checked')
                     self.tag_add(item, ('unchecked',))
-                    print(listmerge)
                 else:
                     self.tag_remove(item, 'unchecked')
                     self.tag_add(item, ('checked',))
@@ -120,10 +121,10 @@ tree.heading('Status', text='Status',anchor = 'nw')
 tree.heading('ID', text='ID',anchor = 'nw')
 tree.heading('Versand', text = 'Versand',anchor = 'nw')
 ##Spalten
-tree.column('Einlieferung',stretch = NO, anchor = 's' )
-tree.column('Gewicht',stretch = NO, anchor = 's' )
-tree.column('Status',stretch = NO, anchor = 's' )
-tree.column('ID',stretch = NO, anchor = 's' )
+tree.column('Einlieferung',stretch = 'false', anchor = 's' )
+tree.column('Gewicht',stretch = 'false', anchor = 's' )
+tree.column('Status',stretch = 'false', anchor = 's' )
+tree.column('ID',stretch = 'false', anchor = 's' )
 
 tree.pack(fill='both')
 

@@ -1,6 +1,12 @@
 
 import pandas as pd
 
+def init():
+    pd.DataFrame(columns=["Einlieferung","Gewicht","Status","ID"]).to_csv('resttag.csv', sep=";", index=False)
+
+#only use if repository is not initialized
+init()
+
 #import df from csv
 dfnorm = pd.read_csv (r'sample_data4.csv',sep=";")
 #import rest of df from csv
@@ -42,3 +48,4 @@ print(dfmerge)
 
 #Start der Bearbeitung durch Mitarbeiter
 bearbeitung(dfmerge)
+

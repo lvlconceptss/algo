@@ -1,37 +1,8 @@
-value = input("Geben Sie ihre Variable ein: ")
-t=input("Auf welchen Datentyp soll geprüft werden(Moeglichkeiten: bool, string, int und float): ")
+import math as m
 
-if (value.isalpha() or ''in value):
-    if (value=='true'):
-        if(t=='bool'):
-            print(f'{value} ist ein bool')
-        else:
-            print(f'{value} ist kein {t}')
-    elif (value=='false'):
-        if(t=='bool'):
-            print(f'{value} ist ein bool')
-        else:
-            print(f'{value} ist kein {t}')
+m1 = float(input("m1:"))
+m2 = float(input("m2:"))
+r = float(input("r:"))
 
-    else:
-        if(t=='string'):
-            print(f'{value} ist ein String')
-        else:
-            print(f'{value} ist kein {t}')
-
-elif (value.isdecimal()):
-    if(t=='int'):
-        print(f'{value} ist ein Int')
-    else:
-        print(f'{value} ist kein {t}')
-
-elif "." in value:
-    if(t=='float'):
-        print(f'{value} ist ein float')
-    else:
-        print(f'{value} ist kein {t}')
-
-
-
-else:
-    print('error')
+t = m.pow(r,2)
+print(f"F= {9.81*m1*m2/t} N")

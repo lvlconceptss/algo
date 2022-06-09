@@ -7,10 +7,13 @@ def init():
 #only use if repository is not initialized
 #init()
 
-#import df from csv
-dfnorm = pd.read_csv (r'sample_data4.csv',sep=";")
-#import rest of df from csv
-dfrest = pd.read_csv (r'resttag.csv',sep=";")
+try:
+    #import df from csv
+    dfnorm = pd.read_csv (r'sample_data4.csv',sep=";")
+    #import rest of df from csv
+    dfrest = pd.read_csv (r'resttag.csv',sep=";")
+except:
+    print("Es wurde eine falsche csv-Datei eingegeben, kontaktieren Sie Ihren Administrator")
 
 def bearbeitung(dfold):
     dfold.to_excel('Paketliste.xlsx', sheet_name='Pakete')

@@ -9,11 +9,11 @@ def init():
 
 try:
     #import df from csv
-    dfnorm = pd.read_csv (r'sample_data4.csv',sep=";")
+    dfnorm = pd.read_csv (r'sample_data4_large.csv',sep=";")
     #import rest of df from csv
     dfrest = pd.read_csv (r'resttag.csv',sep=";")
-except:
-    print("Es wurde eine falsche csv-Datei eingegeben, kontaktieren Sie Ihren Administrator")
+except :
+    print("Es wurde eine falsche csv-Datei eingegeben, kontaktieren Sie Ihren Administrator!")
 
 def bearbeitung(dfold):
     dfold.to_excel('Paketliste.xlsx', sheet_name='Pakete')
@@ -24,31 +24,33 @@ def bearbeitung(dfold):
     print(dfold)
     dfold.to_csv('resttag.csv', sep=";", index=False)
 
-##Beginn Algorithmus
-#split eillieferung to differrent df
-dfeil = dfnorm[dfnorm['Status'] == 1]
-#remove rows with status 1 from df
-dfnorm = dfnorm[dfnorm['Status'] != 1]
+try:
+    ##Beginn Algorithmus
+    #split eillieferung to differrent df
+    dfeil = dfnorm[dfnorm['Status'] == 1]
+    #remove rows with status 1 from df
+    dfnorm = dfnorm[dfnorm['Status'] != 1]
 
-#sort dfeil by Gewicht 
-dfeil = dfeil.sort_values(['Gewicht'],ascending = [True])
-print("Eil: ")
-print (dfeil)
+    #sort dfeil by Gewicht 
+    dfeil = dfeil.sort_values(['Gewicht'],ascending = [True])
+    print("Eil: ")
+    print (dfeil)
 
-#sort dfnormal by Gewicht
-dfnorm = dfnorm.sort_values(by=['Gewicht'], ascending = [True])
-print("Normal:")
-print(dfnorm)
+    #sort dfnormal by Gewicht
+    dfnorm = dfnorm.sort_values(by=['Gewicht'], ascending = [True])
+    print("Normal:")
+    print(dfnorm)
 
-#define merge list
-frames = [dfrest, dfeil, dfnorm]
+    #define merge list
+    frames = [dfrest, dfeil, dfnorm]
 
-#merge dfs sorting x = dfeil, y = df
-dfmerge = pd.concat(frames, keys=["Rest","Eil","Normal"])
-print(dfmerge)
-##Ende Algorithmus
+    #merge dfs sorting x = dfeil, y = df
+    dfmerge = pd.concat(frames, keys=["Rest","Eil","Normal"])
+    print(dfmerge)
+    ##Ende Algorithmus
 
+    #Start der Bearbeitung durch Mitarbeiter
+    bearbeitung(dfmerge)
 
-#Start der Bearbeitung durch Mitarbeiter
-bearbeitung(dfmerge)
-
+except:
+    print("Es ist ein Fehler beim Sortieren aufgetreten, kontaktieren Sie Ihren Administrator!")
